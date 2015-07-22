@@ -1,0 +1,32 @@
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<script type="text/javascript">
+    window.onload = function(){
+        // Get current number of players signed up
+        var players = jQuery("#currentPlayers li").length;
+        // Create the HTML tag for the counter
+        var playerCount = jQuery('<p id = "count">' + players + '</p>');
+        jQuery("#playerCount").append(playerCount); 
+    };
+</script>
+
+<h2>The Sporting Club at the Bellevue</h2>
+<h3>Morning Pick-Up Basketball - Friday</h3>
+<p>This app is in its beta stage and will be developed further once the concept is proven.</p>
+<form action="/reg/" method="post">
+    {% csrf_token %}
+    {{ form }}
+    <input type="submit" value="Submit" />
+</form>
+<div id="playerCount">
+</div>
+<div id="currentPlayers">
+    {% if players %}
+    {% for player in players %}
+    <ul>
+        <li>{{ player.name }}</li>
+    </ul>
+    {% endfor %}
+    {% else %}
+    <p>No players have signed up yet.  Be the first!</p>
+    {% endif %}
+</div>
