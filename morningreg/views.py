@@ -25,7 +25,7 @@ def refresh(request):
     day = Day.objects.get(pk=1)
     currentTime = datetime.now()
     minutes = currentTime.hour * 60 + currentTime.minute
-    if minutes > 629 and minutes < 632:
+    if minutes > 1029 and minutes < 1032:
         if currentTime.weekday() == 0:
             players = Player.objects.all().delete()
             day.name="Wednesday"
