@@ -3,6 +3,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from .forms import NameForm
 from .models import *
+from datetime import datetime
 # Create your views here.
 
 def index(request):
@@ -16,5 +17,24 @@ def index(request):
     else:
         form = NameForm()
         players = Player.objects.all()
-        context = {'form': form, 'players': players }
+        day = Day.objects.get(pk=1)
+        context = {'form': form, 'players': players, 'day': day }
     return render(request, 'index.html', context)
+
+def refresh(request):
+    day = Day.objects.get(pk=1)
+    currentTime = datetime.now()
+    minutes = currentTime.hour * 60 + currentTime.minute
+    if minutes > 629 and minutes < 632:
+        if currentTime.weekday() == 0:
+            players = Player.objects.all().delete()
+            day.name="Wednesday"
+        if currentTime.weekday() == 2:
+            players = Player.objects.all().delete()
+            day.name="Friday"
+        if currentTime.weekday() == 4:
+            players = Player.objects.all().delete()
+            day.name="Monday"
+        day.save()
+    
+    return HttpResponse("Refresh Complete")
