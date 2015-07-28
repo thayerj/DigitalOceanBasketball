@@ -1,4 +1,6 @@
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+{% load staticfiles %}
+<link rel="stylesheet" type="text/css" href="{% static 'morningreg/main.css' %}">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 <script type="text/javascript">
     window.onload = function(){
         // Get current number of players signed up
@@ -8,26 +10,31 @@
         jQuery("#playerCount").append(playerCount); 
     };
 </script>
-<div id="header">
-    <h2>The Sporting Club at the Bellevue</h2>
-    <h3>Morning Pick-Up Basketball - {{ day.name }}</h3>
-    <p>This app is in its beta stage and will be developed further once the concept is proven.</p>
+<div id="clubLogo">
+    <img src="{% static 'morningreg/sportingclublogo-white.png' %}">
+</div>
+<div id="frame">
+    <div id="header">
+        <h3>Morning Basketball - {{ day.name }}</h3>
+    </div>
     <form action="/reg/" method="post">
         {% csrf_token %}
         {{ form }}
         <input type="submit" value="Submit" />
     </form>
-    <div id="playerCount">
-    </div>
-    <div id="currentPlayers">
-        {% if players %}
-            {% for player in players %}
-                <ul>
-                    <li>{{ player.name }}</li>
-                </ul>
+    <div id="playerRoster">
+        <div id="playerCount">
+        </div>
+        <div id="currentPlayers">
+            {% if players %}
+                {% for player in players %}
+                    <ul>
+                        <li>{{ player.name }}</li>
+                    </ul>
                 {% endfor %}
-        {% else %}
-        <p>No players have signed up yet.  Be the first!</p>
-        {% endif %}
+            {% else %}
+            <p>No players have signed up yet.  Be the first!</p>
+            {% endif %}
+        </div>
     </div>
 </div>
